@@ -10168,7 +10168,7 @@ body {
     color: #fff;
   }
   #mainNav.navbar-shrink {
-    background-color: #fff;
+    background-color: #7d7c7c;
   }
   #mainNav.navbar-shrink .navbar-brand {
     color: #000000;
@@ -10282,7 +10282,7 @@ body {
   background-repeat: no-repeat;
   background-attachment: scroll;
   background-size: cover;
-  
+
 }
 .projects-section .featured-text {
   padding: 2rem;
