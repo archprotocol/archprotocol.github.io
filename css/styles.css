@@ -672,6 +672,7 @@ pre code {
 .col-6 {
   flex: 0 0 50%;
   max-width: 50%;
+  font-size: 0.89em;
 }
 
 .col-7 {
@@ -10370,3 +10371,33 @@ body {
 .footer {
   padding: 5rem 0;
 }
+
+.form {
+  padding: 20px;
+  background: #787878;
+  color: #731c0a;
+  border-radius: 40px;
+  border: 10px solid #731c0a;
+  margin-bottom: 20px;
+  opacity: 0.9;
+}
+
+.ybutton {
+  width: 100%;
+  background-color: #787878;
+  border-radius: 10px;
+  border: 3px solid #731c0a;
+  text-align: center;
+  cursor: pointer;
+  margin-bottom: 10px
+}
+
+.ybutton {
+  color: #731c0a
+}
+
+.gbutton,
+.ybutton {
+  padding: 10px;
+  font-size: 1.2em;
+} 
