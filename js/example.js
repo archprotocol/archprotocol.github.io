@@ -135,7 +135,7 @@ async function fetchAccountData() {
   // Contract
   ConnectedContract = new web3.eth.Contract(
     ArchAbi,
-    "0x97f3D01339215916994c9f40f61b89921c613b4d",
+    "0x7bbdE1d045A3216720f0CeAb72bEF4949A1E70E9", //testnet
     provider
   );
   bindRectitude();
@@ -1008,7 +1008,7 @@ const ArchAbi = [
 ];
 const ArchContract = new web3.eth.contract(
   ArchAbi,
-  "0x97f3D01339215916994c9f40f61b89921c613b4d"
+  "0x7bbdE1d045A3216720f0CeAb72bEF4949A1E70E9" //testnet
 );
 console.log(ArchContract);
 /**
