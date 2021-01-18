@@ -135,10 +135,10 @@ async function fetchAccountData() {
   // Contract
   ConnectedContract = new web3.eth.Contract(
     AngelAbi,
-    "0x2D5f75Af40Ef850AEf99D2E8aD0Ba98A44a95409",
+    "0x79f8a50327ece2a5ac75d1f925dbaa99cc8357c3",
     provider
   );
-  bindRectitude();
+  bindRebirth();
 
   fetchContractData();
 }
@@ -179,8 +179,8 @@ function setMessage(message) {
   document.querySelector("#message").textContent = message;
 }
 
-function bindRectitude() {
-  async function doRectitude() {
+function bindRebirth() {
+  async function doRebirth() {
     if (provider && selectedAccount !== null) {
       const tx = ConnectedContract.methods.rebirth();
       tx.call({ from: selectedAccount }, (err, res) => {
@@ -222,7 +222,7 @@ function bindRectitude() {
 
   document
     .querySelector("#rebirth-button")
-    .addEventListener("click", doRectitude);
+    .addEventListener("click", doRebirth);
 }
 /**
  * Connect wallet button pressed.
