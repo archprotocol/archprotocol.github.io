@@ -284,7 +284,7 @@ async function wallet() {
     );
   }
   e = new BigNumber(await o.methods.getPendingDivs(dir).call());
-  if (e > 999999999999) {
+  if (e > 1) {
     e = e.dividedBy(1e9);
     $("#pendiente").html(
       "Rewards Pending = <span style='float:right'><b >" +
@@ -321,7 +321,7 @@ async function wallet() {
   pendingInterval = setInterval(async function() {
     e = new BigNumber(await o.methods.getPendingDivs(dir).call());
 
-    if (e > 999999999999) {
+    if (e > 1) {
       e = e.dividedBy(1e9);
       $("#pendiente").html(
         "Rewards Pending = <span style='float:right'><b >" +
@@ -345,6 +345,7 @@ async function deposit() {
   //let exito= await o.methods.deposit(amount).send({gas: window.config.default_gas_amount, from: await getCoinbase(), gasPrice: window.config.default_gasprice_gwei*1e9})
   try {
     let exito = await window.agl_farming.depositagl(amount3);
+    console.log("Transaction complete?", exito);
   } catch (e) {
     console.log("Encountered an error:", e);
   }
