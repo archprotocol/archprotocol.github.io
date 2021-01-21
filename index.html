@@ -14,8 +14,14 @@
         <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet" />
         <!-- Core theme CSS (includes Bootstrap)-->
         <link href="css/styles.css" rel="stylesheet" />
+        <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+        <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
         </head>
     <body id="page-top">
+        <script>
+            AOS.init();
+          </script>
         <!-- Navigation-->
         <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
             <div class="container">
@@ -42,15 +48,17 @@
                 <div class="mx-auto text-center">
                     <h1 class="mx-auto my-0 text-uppercase text-white"><img class="img-fluid" src="assets/img/archlogo-mid.png" alt="" />RCH</h1>
                     <h2 class="text-white mx-auto mt-2 mb-5">Destroying barbarous financial systems by addressing archaic inflation and, in return, honoring liquidity providers.</h2>
-                    <a href="/dashboard.html" class="btn btn-primary">ARCH DASHBOARD</a>
+                    <div data-aos="zoom-in"><a href="/dashboard" class="btn btn-primary">ARCH DASHBOARD</a>
                     <a href="https://etherscan.io/address/0x97f3D01339215916994c9f40f61b89921c613b4d#code" target="_blank" class="btn btn-primary">ARCH CONTRACT</a>
                     <a href="https://www.dextools.io/app/uniswap/pair-explorer/0xef841312c610a6340a0235e4e26ca7a0ecb09635" target="_blank" class="btn btn-primary">ARCH DEXTOOLS</a>
                     <a href="https://app.uniswap.org/#/swap?inputCurrency=0x97f3d01339215916994c9f40f61b89921c613b4d" target="_blank" class="btn btn-primary">ARCH UNISWAP</a>
                 </div>
             </div>
+        </div>
 
         </header>
         <!-- About-->
+        <div data-aos="fade-up" data-aos-duration="3000">
         <section class="about-section text-center" id="about">
             <div class="container">
                 <div class="row">
@@ -64,12 +72,20 @@
                         </p>
                     </div>
                 </div>
-                <img class="img-fluid" src="assets/img/archlogo-main.png" alt="" />
+                <div data-aos="zoom-in" data-aos-duration="1000"> <img class="img-fluid" src="assets/img/archlogo-main.png" alt="" />
             </div>
+        </div>
         </section>
+    </div>
         <!-- Projects-->
+        <div data-aos="fade-right"
+        data-aos-duration="1000"
+        data-aos-easing="ease-in-sine"
+        data-aos-anchor="#arch-anchor"
+        data-aos-offset="500"
+        data-aos-duration="500">
         <section class="projects-section bg-light" id="tokenomics">
-            <div class="container">
+            <div class="container" id="arch-anchor">
                 <!-- Project One Row-->
                 <div class="row justify-content-center no-gutters">
                     <div class="col-lg-6"><img class="img-fluid" src="assets/img/arch-pic1.png" alt="" /></div>
@@ -120,13 +136,15 @@
                 </div>
             </div>
         </section>
+        </div>
         <!-- Masthead-->
+        <div data-aos="fade-up" data-aos-duration="3000">
         <header class="masthead3" id="angel">
             <div class="container d-flex h-100 align-items-center">
                 <div class="mx-auto text-center">
                     <h1 class="mx-auto my-0 text-uppercase text-white"><img class="img-fluid" src="assets/img/angellogo-mid.png" alt="" />ANGEL</h1>
                     <h3 class="text-white mx-auto mt-2 mb-5"> Bringing salvation to all those who seek it by using miraculous means and delivering glory to both holders and liquidity providers.</h3>
-                    <a href="/angeldashboard.html" class="btn btn-primary">ANGEL DASHBOARD</a>
+                    <a href="/angeldashboard" class="btn btn-primary">ANGEL DASHBOARD</a>
                     <a href="https://etherscan.io/address/0xd1B9E138516EE74ee27949eb1B58584A4bEDE267#code" target="_blank" class="btn btn-primary">ANGEL CONTRACT</a>
                     <a href="https://www.dextools.io/app/uniswap/pair-explorer/0xd91911131afe19526d45fc403c514be55c404c39" class="btn btn-primary">ANGEL DEXTOOLS</a>
                     <a href="https://app.uniswap.org/#/swap?inputCurrency=0xd1B9E138516EE74ee27949eb1B58584A4bEDE267" class="btn btn-primary">ANGEL UNISWAP</a>
@@ -134,8 +152,13 @@
             </div>
 
         </header>
+    </div>
         <!-- About-->
-        <section class="about-section1 text-center">
+        <div data-aos="flip-left"
+     data-aos-easing="ease-out-cubic"
+     data-aos-duration="2000"
+     data-aos-anchor="#flip-anchor">
+        <section class="about-section1 text-center" id="flip-anchor">
             <div class="container">
                 <div class="row">
                     <div class="col-lg-8 mx-auto">
@@ -145,11 +168,16 @@
                         </p>
                     </div>
                 </div>
-                <img class="img-fluid" src="assets/img/angellogo-main.png" alt="" />
+                <img class="img-fluid" src="assets/img/angellogo-main.png" alt=""/>
             </div>
         </section>
+    </div>
         <!-- Projects-->
-        <section class="projects-section1 bg-light">
+        <div data-aos="fade-left"
+        data-aos-anchor="#angel-anchor"
+        data-aos-offset="500"
+        data-aos-duration="500">
+        <section class="projects-section1 bg-light" id="angel-anchor">
             <div class="container">
                 <!-- Project One Row-->
                 <div class="row justify-content-center no-gutters">
@@ -204,6 +232,7 @@
                 </div>
             </div>
         </section>
+        </div>
         <!-- Contact-->
         <section class="contact-section bg-black">
             <div class="container">
