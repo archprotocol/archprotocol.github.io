@@ -236,7 +236,7 @@ async function wallet() {
     bb = b.dividedBy(bb).multipliedBy(100);
 
     $("#proportion").html(
-      "% Shares = <span style='float:right'><b >" +
+      "Share % of Pool = <span style='float:right'><b >" +
         bb.decimalPlaces(4) +
         "</b> %</span>"
     );
