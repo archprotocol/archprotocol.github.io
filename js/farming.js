@@ -277,7 +277,7 @@ async function wallet() {
   }
   e = new BigNumber(await o.methods.getPendingDivs(dir).call());
   if (e > 999999999999) {
-    e = e.dividedBy(1e18);
+    e = e.dividedBy(1e9);
     $("#pendiente").html(
       "Rewards pending = <span style='float:right'><b >" +
         e.decimalPlaces(6) +
@@ -293,14 +293,14 @@ async function wallet() {
     "Num farmers = <span style='float:right'><b>" + f + "</b></span>"
   );
   let g = new BigNumber(await o.methods.totalClaimedRewards().call());
-  g = g.dividedBy(1e18);
+  g = g.dividedBy(1e9);
   $("#totalClaimed").html(
     "Total Rewards Claimed = <span style='float:right'><b>" +
       g.decimalPlaces(6) +
       "</b> AGL</span>"
   );
   let h = new BigNumber(await o.methods.totalEarnedTokens(dir).call());
-  h = h.dividedBy(1e18);
+  h = h.dividedBy(1e9);
   $("#claimed").html(
     "Your Rewads Claimed = <span style='float:right'><b >" +
       h.decimalPlaces(6) +
