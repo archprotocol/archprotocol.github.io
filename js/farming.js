@@ -200,7 +200,7 @@ async function clearInfo() {
   $("#address").text("Your Address = ");
   $("#balance").text("LP Balance = ");
   $("#balance2").text("AGL Balance = ");
-  $("#pendiente").text("Rewards pending = ");
+  $("#pendiente").text("Rewards Pending = ");
   $("#stakers").text("Number of Farmers = ");
   $("#totalClaimed").text("Total Rewards Claimed = ");
   $("#claimed").text("Your Rewads Claimed = ");
