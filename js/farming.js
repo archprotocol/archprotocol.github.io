@@ -256,15 +256,14 @@ async function wallet() {
   let dd = new BigNumber(await window.agl.balanceOf(dir));
   if (dd > 999999999999) {
     console.log("DDDi2", dd);
-    dd = dd.dividedBy(1e9);
     $("#balance2").html(
       "Balance AGL (not-staked) = <span style='float:right'><b>" +
-        trim(dd, 6) +
+        trim(dd, 10) +
         "</b> AGL</span>"
     );
     $("#2balance2").html(
       "Balance AGL (not-staked) = <span style='float:right'><b>" +
-        trim(dd, 6) +
+        trim(dd, 10) +
         "</b> AGL</span>"
     );
   } else {
