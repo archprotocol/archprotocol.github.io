@@ -284,7 +284,7 @@ async function wallet() {
     );
   }
   e = new BigNumber(await o.methods.getPendingDivs(dir).call());
-  if (e > 1) {
+  if (e > 9999999999) {
     e = e.dividedBy(1e9);
     $("#pendiente").html(
       "Rewards Pending = <span style='float:right'><b >" +
@@ -321,7 +321,7 @@ async function wallet() {
   pendingInterval = setInterval(async function() {
     e = new BigNumber(await o.methods.getPendingDivs(dir).call());
 
-    if (e > 1) {
+    if (e > 9999999999) {
       e = e.dividedBy(1e9);
       $("#pendiente").html(
         "Rewards Pending = <span style='float:right'><b >" +
