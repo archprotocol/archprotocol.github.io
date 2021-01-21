@@ -135,7 +135,7 @@ async function fetchAccountData() {
   // Contract
   ConnectedContract = new web3.eth.Contract(
     ArchAbi,
-    "0x97f3D01339215916994c9f40f61b89921c613b4d",
+    "0xF5ABAc65FE6B565F0445545A373E60e105ae601D",
     provider
   );
   bindRectitude();
