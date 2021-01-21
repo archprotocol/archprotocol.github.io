@@ -1,7 +1,7 @@
 window.config = {
-  agl_address: "0x9AED2c0A8eabC67adf0883B2f4e4BBF3Ae5111e9", // token address
-  agl_farming_address: "0x8bac4fb25d49747e41601dbc03dafc9cef4c3812", // farming contract 1
-  agl_lp_address: "0x770e5211820704a1De64dD2b9D2fD1C9F9b82494", // uni AGL 1
+  agl_address: "0xF5ABAc65FE6B565F0445545A373E60e105ae601D", // token address
+  agl_farming_address: "0x55805218bf2155cd9d531b7ad76951a4c3a573d3", // farming contract 1
+  agl_lp_address: "0x984e72DE0b04ADb89199E75a016A1Edfeab23E56", // uni AGL 1
   etherscan_baseURL: "https://etherscan.io",
   default_gasprice_gwei: 150,
   default_gas_amount: 300000,
