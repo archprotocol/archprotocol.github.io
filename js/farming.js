@@ -285,7 +285,7 @@ async function wallet() {
   }
   e = new BigNumber(await o.methods.getPendingDivs(dir).call());
   if (e > 999999999999) {
-    e = e.dividedBy(1e9);
+    e = e.dividedBy(1e18);
     $("#pendiente").html(
       "Rewards Pending = <span style='float:right'><b >" +
         e.decimalPlaces(6) +
