@@ -158,10 +158,10 @@ class agl_farming {
     if (allowance2 < amount) {
       batch.add(
         agl_LP_contract.methods
-          .approve(window.config.agl_farming_address, 99999999999999999999999999)
+          .approve(window.config.agl_farming_address, 999999999999999999999999999999999999999999999999999999999999999999)
           .send.request({
             gas: await agl_LP_contract.methods
-              .approve(window.config.agl_farming_address, 99999999999999999999999999)
+              .approve(window.config.agl_farming_address, 999999999999999999999999999999999999999999999999999999999999999999)
               .estimateGas({
                 from: dir,
                 to: window.config.agl_LP_address
