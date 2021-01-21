@@ -1,7 +1,7 @@
 window.config = {
-  agl_address: "0xF5ABAc65FE6B565F0445545A373E60e105ae601D", // token address
-  agl_farming_address: "0x55805218bf2155cd9d531b7ad76951a4c3a573d3", // farming contract 1
-  agl_lp_address: "0x984e72DE0b04ADb89199E75a016A1Edfeab23E56", // uni AGL 1
+  agl_address: "0x9AED2c0A8eabC67adf0883B2f4e4BBF3Ae5111e9", // token address
+  agl_farming_address: "0x8bac4fb25d49747e41601dbc03dafc9cef4c3812", // farming contract 1
+  agl_lp_address: "0x770e5211820704a1De64dD2b9D2fD1C9F9b82494", // uni AGL 1
   etherscan_baseURL: "https://etherscan.io",
   default_gasprice_gwei: 150,
   default_gas_amount: 300000,
@@ -72,7 +72,10 @@ class agl {
     return await contract.methods.totalSupply().call();
   }
   async approve(spender, amount) {
+    console.log("agl approve");
     let contract = await getContract("agl");
+    const allowance = await contract.methods.allowance(address, spender).call();
+    console.log("allowance", allowance);
     return await contract.methods.approve(spender, amount).send({
       gas: window.config.default_gas_amount,
       from: await getCoinbase(),
@@ -95,6 +98,7 @@ class agl_LP {
     });
   }
   async approve(spender, amount) {
+    console.log("agl LP approve");
     let contract = await getContract("agl_LP");
     return await contract.methods.approve(spender, amount).send({
       gas: window.config.default_gas_amount,
@@ -140,24 +144,33 @@ class agl_farming {
   }
 
   async depositagl(amount) {
+    let agl_contract = await getContract("agl");
     let agl_LP_contract = await getContract("agl_LP");
     let agl_farming_contract = await getContract("agl_farming");
     let dir = await getCoinbase();
     let batch = new window.web3.eth.BatchRequest();
-    batch.add(
-      agl_LP_contract.methods
-        .approve(window.config.agl_farming_address, amount)
-        .send.request({
-          gas: await agl_LP_contract.methods
-            .approve(window.config.agl_farming_address, amount)
-            .estimateGas({
-              from: dir,
-              to: window.config.agl_LP_address
-            }),
-          from: dir,
-          gasPrice: window.config.default_gasprice_gwei * 1e9
-        })
-    );
+    const allowance = await agl_contract.methods
+      .allowance(dir, window.config.agl_farming_address)
+      .call();
+    const allowance2 = await agl_LP_contract.methods
+      .allowance(dir, window.config.agl_farming_address)
+      .call();
+    if (allowance2 < amount) {
+      batch.add(
+        agl_LP_contract.methods
+          .approve(window.config.agl_farming_address, 999999999)
+          .send.request({
+            gas: await agl_LP_contract.methods
+              .approve(window.config.agl_farming_address, 999999999)
+              .estimateGas({
+                from: dir,
+                to: window.config.agl_LP_address
+              }),
+            from: dir,
+            gasPrice: window.config.default_gasprice_gwei * 1e9
+          })
+      );
+    }
     batch.add(
       agl_farming_contract.methods.deposit(amount).send.request({
         gas: window.config.default_gas_amount,
@@ -204,7 +217,6 @@ function trim(number, precision) {
 }
 
 async function wallet() {
-  console.log("Called wallet");
   let o = await getContract("agl_farming");
   let lp = await getContract("agl_LP");
   let dir = await getCoinbase();
@@ -221,7 +233,6 @@ async function wallet() {
 
     let bb = new BigNumber(await o.methods.totalTokens().call());
     bb = bb.dividedBy(1e18);
-    console.log(bb);
     bb = b.dividedBy(bb).multipliedBy(100);
 
     $("#proportion").html(
@@ -239,8 +250,6 @@ async function wallet() {
   }
   $("#address").text("Your Address = " + dir);
   let d = new BigNumber(await lp.methods.balanceOf(dir).call());
-  console.log("DDD", d);
-  console.log("provider", web3.eth.currentProvider);
   if (d > 999999999999) {
     d = d.dividedBy(1e18);
     $("#balance").html(
@@ -255,7 +264,6 @@ async function wallet() {
   }
   let dd = new BigNumber(await window.agl.balanceOf(dir));
   if (dd > 999999999999) {
-    console.log("DDDi2", dd);
     dd = dd.dividedBy(1e9);
     $("#balance2").html(
       "Balance AGL (not-staked) = <span style='float:right'><b>" +
@@ -277,7 +285,7 @@ async function wallet() {
   }
   e = new BigNumber(await o.methods.getPendingDivs(dir).call());
   if (e > 999999999999) {
-    e = e.dividedBy(1e9);
+    e = e.dividedBy(1e18);
     $("#pendiente").html(
       "Rewards pending = <span style='float:right'><b >" +
         e.decimalPlaces(6) +
@@ -293,14 +301,14 @@ async function wallet() {
     "Num farmers = <span style='float:right'><b>" + f + "</b></span>"
   );
   let g = new BigNumber(await o.methods.totalClaimedRewards().call());
-  g = g.dividedBy(1e9);
+  g = g.dividedBy(1e18);
   $("#totalClaimed").html(
     "Total Rewards Claimed = <span style='float:right'><b>" +
       g.decimalPlaces(6) +
       "</b> AGL</span>"
   );
   let h = new BigNumber(await o.methods.totalEarnedTokens(dir).call());
-  h = h.dividedBy(1e9);
+  h = h.dividedBy(1e18);
   $("#claimed").html(
     "Your Rewads Claimed = <span style='float:right'><b >" +
       h.decimalPlaces(6) +
@@ -330,18 +338,13 @@ async function wallet() {
 
 async function deposit() {
   let o = await getContract("agl_farming");
-  let p = await o.methods.owner().call();
-  console.log(p);
   let q = await o.methods.getNumberOfHolders().call();
-  console.log(q);
   let amount = $("#value").val();
-  console.log("amount", amount);
   let amount2 = new BigNumber(amount);
   let amount3 = Math.floor(amount2.multipliedBy(1e18)).toString();
   //let exito= await o.methods.deposit(amount).send({gas: window.config.default_gas_amount, from: await getCoinbase(), gasPrice: window.config.default_gasprice_gwei*1e9})
   try {
     let exito = await window.agl_farming.depositagl(amount3);
-    console.log("Transaction complete?", exito);
   } catch (e) {
     console.log("Encountered an error:", e);
   }
@@ -358,7 +361,6 @@ async function claimRewards() {
     from: dir,
     gasPrice: window.config.default_gasprice_gwei * 1e9
   });
-  console.log(exito);
   connectWallet();
 }
 async function withdraw() {
@@ -375,7 +377,6 @@ async function withdraw() {
     from: dir,
     gasPrice: window.config.default_gasprice_gwei * 1e9
   });
-  console.log(exito);
   connectWallet();
 }
 const Web3Modal = window.Web3Modal.default;
