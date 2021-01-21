@@ -36,12 +36,12 @@ function init() {
 
   // Check that the web page is run in a secure context,
   // as otherwise MetaMask won't be available
-if(location.protocol !== 'https:') {
-// https://ethereum.stackexchange.com/a/62217/620
-const alert = document.querySelector("#alert-error-https");
-alert.style.display = "block";
- document.querySelector("#btn-connect").setAttribute("disabled", "disabled")
-    return;
+  if(location.protocol !== 'https:') {
+  //  // https://ethereum.stackexchange.com/a/62217/620
+  const alert = document.querySelector("#alert-error-https");
+  alert.style.display = "block";
+  document.querySelector("#btn-connect").setAttribute("disabled", "disabled")
+  return;
   }
 
   // Tell Web3modal what providers we have available.
@@ -135,7 +135,7 @@ async function fetchAccountData() {
   // Contract
   ConnectedContract = new web3.eth.Contract(
     AngelAbi,
-    "0xd1B9E138516EE74ee27949eb1B58584A4bEDE267",
+    "0x2D5f75Af40Ef850AEf99D2E8aD0Ba98A44a95409",
     provider
   );
   bindRebirth();
@@ -188,11 +188,11 @@ function bindRebirth() {
           var message = err.message.toString();
           if (
             err.message.includes(
-              "Apprentices can not call the Rectitude function"
+              "Apprentices can not call the Rebirth function"
             )
           )
             message =
-              "Apprentices can not call the Rectitude function. Only Fellow Craftsman and Masters.";
+              "Apprentices can not call the Rebirth function. Only Fellow Craftsman and Masters.";
           else if (err.message.includes("execution reverted: Too Soon."))
             message =
               "Execution reverted: Someone else already did the rebirth.";
