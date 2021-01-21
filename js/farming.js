@@ -196,15 +196,15 @@ window.ethereum.on("accountsChanged", async function(accounts) {
 });
 
 async function clearInfo() {
-  $("#staked").text("Staked = ");
+  $("#staked").text("Deposited = ");
   $("#address").text("Your Address = ");
-  $("#balance").text("Balance (not-staked) = ");
-  $("#balance2").text("Balance (not-staked) = ");
+  $("#balance").text("LP Balance = ");
+  $("#balance2").text("AGL Balance = ");
   $("#pendiente").text("Rewards pending = ");
-  $("#stakers").text("Num Stakers = ");
+  $("#stakers").text("Number of Farmers = ");
   $("#totalClaimed").text("Total Rewards Claimed = ");
   $("#claimed").text("Your Rewads Claimed = ");
-  $("#proportion").text("% Shares = ");
+  $("#proportion").text("Share % of Pool = ");
   clearInterval(pendingInterval);
 }
 var pendingInterval;
@@ -245,7 +245,7 @@ async function wallet() {
       "Deposited = <span style='float:right'><b>0.000000</b> LP</span>"
     );
     $("#proportion").html(
-      "% Shares =<span style='float:right'> <b>0.0000</b> %</span>"
+      "Share % of Pool =<span style='float:right'> <b>0.0000</b> %</span>"
     );
   }
   $("#address").text("Your Address = " + dir);
@@ -253,52 +253,52 @@ async function wallet() {
   if (d > 999999999999) {
     d = d.dividedBy(1e18);
     $("#balance").html(
-      "Balance (not-staked) = <span style='float:right'><b>" +
+      "LP Balance = <span style='float:right'><b>" +
         trim(d, 6) +
         "</b> LP</span>"
     );
   } else {
     $("#balance").html(
-      "Balance (not-staked) = <span style='float:right'><b>0.000000</b> LP</span>"
+      "LP Balance = <span style='float:right'><b>0.000000</b> LP</span>"
     );
   }
   let dd = new BigNumber(await window.agl.balanceOf(dir));
   if (dd > 999999999999) {
     dd = dd.dividedBy(1e9);
     $("#balance2").html(
-      "Balance AGL (not-staked) = <span style='float:right'><b>" +
+      "AGL Balance = <span style='float:right'><b>" +
         trim(dd, 6) +
         "</b> AGL</span>"
     );
     $("#2balance2").html(
-      "Balance AGL (not-staked) = <span style='float:right'><b>" +
+      "AGL Balance = <span style='float:right'><b>" +
         trim(dd, 6) +
         "</b> AGL</span>"
     );
   } else {
     $("#balance2").html(
-      "Balance AGL (not-staked) = <span style='float:right'><b>0.000000</b> AGL</span>"
+      "AGL Balance = <span style='float:right'><b>0.000000</b> AGL</span>"
     );
     $("#2balance2").html(
-      "Balance AGL (not-staked) = <span style='float:right'><b>0.000000</b> AGL</span>"
+      "AGL Balance = <span style='float:right'><b>0.000000</b> AGL</span>"
     );
   }
   e = new BigNumber(await o.methods.getPendingDivs(dir).call());
   if (e > 999999999999) {
     e = e.dividedBy(1e9);
     $("#pendiente").html(
-      "Rewards pending = <span style='float:right'><b >" +
+      "Rewards Pending = <span style='float:right'><b >" +
         e.decimalPlaces(6) +
         "</b> AGL</span>"
     );
   } else {
     $("#pendiente").html(
-      "Rewards pending = <span style='float:right'><b >0.000000</b> AGL</span>"
+      "Rewards Pending = <span style='float:right'><b >0.000000</b> AGL</span>"
     );
   }
   f = await o.methods.getNumberOfHolders().call();
   $("#stakers").html(
-    "Num farmers = <span style='float:right'><b>" + f + "</b></span>"
+    "Number of Farmers = <span style='float:right'><b>" + f + "</b></span>"
   );
   let g = new BigNumber(await o.methods.totalClaimedRewards().call());
   g = g.dividedBy(1e9);
