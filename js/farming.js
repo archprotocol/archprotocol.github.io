@@ -285,10 +285,10 @@ async function wallet() {
   }
   e = new BigNumber(await o.methods.getPendingDivs(dir).call());
   if (e > 999999999999) {
-    e = e.dividedBy(1e18);
+    e = e.dividedBy(1e9);
     $("#pendiente").html(
       "Rewards Pending = <span style='float:right'><b >" +
-        e.decimalPlaces(6) +
+        e.decimalPlaces(18) +
         "</b> AGL</span>"
     );
   } else {
@@ -325,7 +325,7 @@ async function wallet() {
       e = e.dividedBy(1e9);
       $("#pendiente").html(
         "Rewards pending = <span style='float:right'><b >" +
-          e.decimalPlaces(6) +
+          e.decimalPlaces(18) +
           "</b> AGL</span>"
       );
     } else {
