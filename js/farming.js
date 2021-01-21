@@ -288,7 +288,7 @@ async function wallet() {
     e = e.dividedBy(1e9);
     $("#pendiente").html(
       "Rewards Pending = <span style='float:right'><b >" +
-        e.decimalPlaces(18) +
+        e.decimalPlaces(6) +
         "</b> AGL</span>"
     );
   } else {
@@ -324,13 +324,13 @@ async function wallet() {
     if (e > 999999999999) {
       e = e.dividedBy(1e9);
       $("#pendiente").html(
-        "Rewards pending = <span style='float:right'><b >" +
-          e.decimalPlaces(18) +
+        "Rewards Pending = <span style='float:right'><b >" +
+          e.decimalPlaces(6) +
           "</b> AGL</span>"
       );
     } else {
       $("#pendiente").html(
-        "Rewards pending = <span style='float:right'><b>0.000000</b> AGL </span>"
+        "Rewards Pending = <span style='float:right'><b>0.000000</b> AGL </span>"
       );
     }
   }, 20000);
