@@ -72,15 +72,6 @@ window.ethereum.on("accountsChanged", async function(accounts) {
 });
 
 async function clearInfo() {
-  $("#staked").text("Deposited = ");
-  $("#address").text("Your Address = ");
-  $("#balance").text("UNI-V2 Balance = ");
-  $("#balance2").text("AGL Balance = ");
-  $("#pendiente").text("Rewards Pending = ");
-  $("#stakers").text("Number of Farmers = ");
-  $("#totalClaimed").text("Total Rewards Claimed = ");
-  $("#claimed").text("Your Rewads Claimed = ");
-  $("#proportion").text("Share % of Pool = ");
   $("#arch-staked").text("Deposited = ");
   $("#arch-address").text("Your Address = ");
   $("#arch-balance").text("UNI-V2 Balance = ");
@@ -90,6 +81,15 @@ async function clearInfo() {
   $("#arch-totalClaimed").text("Total Rewards Claimed = ");
   $("#arch-claimed").text("Your Rewads Claimed = ");
   $("#arch-proportion").text("Share % of Pool = ");
+  $("#angelstaked").text("Deposited = ");
+  $("#angel-address").text("Your Address = ");
+  $("#angel-balance").text("UNI-V2 Balance = ");
+  $("#angel-balance2").text("AGL Balance = ");
+  $("#angel-pendiente").text("Rewards Pending = ");
+  $("#angel-stakers").text("Number of Farmers = ");
+  $("#angel-totalClaimed").text("Total Rewards Claimed = ");
+  $("#angel-claimed").text("Your Rewads Claimed = ");
+  $("#angel-proportion").text("Share % of Pool = ");
   clearInterval(pendingInterval);
 }
 var pendingInterval;
