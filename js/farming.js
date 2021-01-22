@@ -3,7 +3,7 @@ window.config = {
   agl_farming_address: "0x55805218bf2155cd9d531b7ad76951a4c3a573d3", // farming contract AGL/ETH testnet
   agl_lp_address: "0x984e72DE0b04ADb89199E75a016A1Edfeab23E56", // AGL/ETH LP POOL testnet
   etherscan_baseURL: "https://etherscan.io",
-  default_gasprice_gwei: 150,
+  default_gasprice_gwei: 100,
   default_gas_amount: 300000,
   circulating_supply: "3,299"
 };
