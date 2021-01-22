@@ -2,6 +2,9 @@ window.config = {
   agl_address: "0xF5ABAc65FE6B565F0445545A373E60e105ae601D", // AGL TOKEN testnet
   agl_farming_address: "0x55805218bf2155cd9d531b7ad76951a4c3a573d3", // farming contract AGL/ETH testnet
   agl_lp_address: "0x984e72DE0b04ADb89199E75a016A1Edfeab23E56", // AGL/ETH LP POOL testnet
+  arch_address: "0xF5ABAc65FE6B565F0445545A373E60e105ae601D", // ARCH TOKEN testnet
+  arch_farming_address: "0x99c969b36e26afc87763023e4f974f3bf259308b", // farming contract ARCH/ETH testnet
+  arch_lp_address: "0xB3F01C304274c6C69949732CE060755E6517396a", // ARCH/ETH LP POOL testnet
   etherscan_baseURL: "https://etherscan.io",
   default_gasprice_gwei: 100,
   default_gas_amount: 300000,
@@ -17,7 +20,8 @@ async function connectWallet() {
     try {
       await window.ethereum.enable();
       console.log("Connected!");
-      wallet();
+      angelWallet();
+      archWallet();
       document.querySelector("#prepare").style.display = "none";
       document.querySelector("#connected").style.display = "block";
 
@@ -58,134 +62,6 @@ function getCoinbase() {
   return window.web3.eth.getCoinbase();
 }
 
-class agl {
-  async transfer(to, amount) {
-    let contract = await getContract("agl");
-    return await contract.methods.transfer(to, amount).send({
-      gas: window.config.default_gas_amount,
-      from: await window.web3.eth.getCoinbase(),
-      gasPrice: window.config.default_gasprice_gwei * 1e9
-    });
-  }
-  async totalSupply() {
-    let contract = await getContract("agl");
-    return await contract.methods.totalSupply().call();
-  }
-  async approve(spender, amount) {
-    console.log("agl approve");
-    let contract = await getContract("agl");
-    const allowance = await contract.methods.allowance(address, spender).call();
-    console.log("allowance", allowance);
-    return await contract.methods.approve(spender, amount).send({
-      gas: window.config.default_gas_amount,
-      from: await getCoinbase(),
-      gasPrice: window.config.default_gasprice_gwei * 1e9
-    });
-  }
-  async balanceOf(address) {
-    let contract = await getContract("agl");
-    return await contract.methods.balanceOf(address).call();
-  }
-}
-
-class agl_LP {
-  async transfer(to, amount) {
-    let contract = await getContract("agl_LP");
-    return await contract.methods.transfer(to, amount).send({
-      gas: window.config.default_gas_amount,
-      from: await window.web3.eth.getCoinbase(),
-      gasPrice: window.config.default_gasprice_gwei * 1e9
-    });
-  }
-  async approve(spender, amount) {
-    console.log("agl LP approve");
-    let contract = await getContract("agl_LP");
-    return await contract.methods.approve(spender, amount).send({
-      gas: window.config.default_gas_amount,
-      from: await getCoinbase(),
-      gasPrice: window.config.default_gasprice_gwei * 1e9
-    });
-  }
-  async balanceOf(address) {
-    let contract = await getContract("agl_LP");
-    return await contract.methods.balanceOf(address).call();
-  }
-}
-class agl_farming {
-  constructor() {
-    [
-      "owner",
-      "cliffTime",
-      "depositedTokens",
-      "depositTime",
-      "lastClaimedTime",
-      "totalEarnedTokens",
-      "getPendingDivs",
-      "getNumberOfHolders",
-      "getDepositorsList",
-      "totalTokens"
-    ].forEach(fn_name => {
-      this[fn_name] = async function(...args) {
-        let contract = await getContract("agl_farming");
-        return await contract.methods[fn_name](...args).call();
-      };
-    });
-
-    ["withdraw", "deposit", "claim"].forEach(fn_name => {
-      this[fn_name] = async function(...args) {
-        let contract = await getContract("agl_farming");
-        return await contract.methods[fn_name](...args).send({
-          gas: window.config.default_gas_amount,
-          from: await getCoinbase(),
-          gasPrice: window.config.default_gasprice_gwei * 1e9
-        });
-      };
-    });
-  }
-
-  async depositagl(amount) {
-    let agl_contract = await getContract("agl");
-    let agl_LP_contract = await getContract("agl_LP");
-    let agl_farming_contract = await getContract("agl_farming");
-    let dir = await getCoinbase();
-    let batch = new window.web3.eth.BatchRequest();
-    const allowance = await agl_contract.methods
-      .allowance(dir, window.config.agl_farming_address)
-      .call();
-    const allowance2 = await agl_LP_contract.methods
-      .allowance(dir, window.config.agl_farming_address)
-      .call();
-    if (allowance2 < amount) {
-      batch.add(
-        agl_LP_contract.methods
-          .approve(window.config.agl_farming_address, 999999999999999999999999999999999999999999999999999999999999999999)
-          .send.request({
-            gas: await agl_LP_contract.methods
-              .approve(window.config.agl_farming_address, 999999999999999999999999999999999999999999999999999999999999999999)
-              .estimateGas({
-                from: dir,
-                to: window.config.agl_LP_address
-              }),
-            from: dir,
-            gasPrice: window.config.default_gasprice_gwei * 1e9
-          })
-      );
-    }
-    batch.add(
-      agl_farming_contract.methods.deposit(amount).send.request({
-        gas: window.config.default_gas_amount,
-        from: await getCoinbase(),
-        gasPrice: window.config.default_gasprice_gwei * 1e9
-      })
-    );
-    return await batch.execute();
-  }
-}
-
-window.agl = new agl();
-window.agl_LP = new agl_LP();
-window.agl_farming = new agl_farming();
-
 window.ethereum.on("accountsChanged", async function(accounts) {
   let dir = await getCoinbase();
   if (dir === null) {
@@ -205,6 +81,15 @@ async function clearInfo() {
   $("#totalClaimed").text("Total Rewards Claimed = ");
   $("#claimed").text("Your Rewads Claimed = ");
   $("#proportion").text("Share % of Pool = ");
+  $("#arch-staked").text("Deposited = ");
+  $("#arch-address").text("Your Address = ");
+  $("#arch-balance").text("UNI-V2 Balance = ");
+  $("#arch-balance2").text("ARCH Balance = ");
+  $("#arch-pendiente").text("Rewards Pending = ");
+  $("#arch-stakers").text("Number of Farmers = ");
+  $("#arch-totalClaimed").text("Total Rewards Claimed = ");
+  $("#arch-claimed").text("Your Rewads Claimed = ");
+  $("#arch-proportion").text("Share % of Pool = ");
   clearInterval(pendingInterval);
 }
 var pendingInterval;
@@ -216,170 +101,6 @@ function trim(number, precision) {
   return trimmedNumber;
 }
 
-async function wallet() {
-  let o = await getContract("agl_farming");
-  let lp = await getContract("agl_LP");
-  let dir = await getCoinbase();
-
-  let b = new BigNumber(await o.methods.depositedTokens(dir).call());
-  let bb = new BigNumber(await o.methods.totalTokens.call());
-  if (b > 999999999999) {
-    b = b.dividedBy(1e18);
-    $("#staked").html(
-      "Deposited = <span style='float:right'><b >" +
-        trim(b, 18) +
-        "</b> UNI-V2</span>"
-    );
-
-    let bb = new BigNumber(await o.methods.totalTokens().call());
-    bb = bb.dividedBy(1e18);
-    bb = b.dividedBy(bb).multipliedBy(100);
-
-    $("#proportion").html(
-      "Share % of Pool = <span style='float:right'><b >" +
-        bb.decimalPlaces(4) +
-        "</b> %</span>"
-    );
-  } else {
-    $("#staked").html(
-      "Deposited = <span style='float:right'><b>0.000000</b> UNI-V2</span>"
-    );
-    $("#proportion").html(
-      "Share % of Pool =<span style='float:right'> <b>0.0000</b> %</span>"
-    );
-  }
-  $("#address").text("Your Address = " + dir);
-  let d = new BigNumber(await lp.methods.balanceOf(dir).call());
-  if (d > 999999999999) {
-    d = d.dividedBy(1e18);
-    $("#balance").html(
-      "LP Balance = <span style='float:right'><b>" +
-        trim(d, 18) +
-        "</b> UNI-V2</span>"
-    );
-  } else {
-    $("#balance").html(
-      "LP Balance = <span style='float:right'><b>0.000000</b> UNI-V2</span>"
-    );
-  }
-  let dd = new BigNumber(await window.agl.balanceOf(dir));
-  if (dd > 999999999999) {
-    dd = dd.dividedBy(1e9);
-    $("#balance2").html(
-      "AGL Balance = <span style='float:right'><b>" +
-        trim(dd, 6) +
-        "</b> AGL</span>"
-    );
-    $("#2balance2").html(
-      "AGL Balance = <span style='float:right'><b>" +
-        trim(dd, 6) +
-        "</b> AGL</span>"
-    );
-  } else {
-    $("#balance2").html(
-      "AGL Balance = <span style='float:right'><b>0.000000</b> AGL</span>"
-    );
-    $("#2balance2").html(
-      "AGL Balance = <span style='float:right'><b>0.000000</b> AGL</span>"
-    );
-  }
-  e = new BigNumber(await o.methods.getPendingDivs(dir).call());
-  if (e > 9999999999) {
-    e = e.dividedBy(1e9);
-    $("#pendiente").html(
-      "Rewards Pending = <span style='float:right'><b >" +
-        e.decimalPlaces(6) +
-        "</b> AGL</span>"
-    );
-  } else {
-    $("#pendiente").html(
-      "Rewards Pending = <span style='float:right'><b >0.000000</b> AGL</span>"
-    );
-  }
-  f = await o.methods.getNumberOfHolders().call();
-  $("#stakers").html(
-    "Number of Farmers = <span style='float:right'><b>" + f + "</b></span>"
-  );
-  let g = new BigNumber(await o.methods.totalClaimedRewards().call());
-  g = g.dividedBy(1e9);
-  $("#totalClaimed").html(
-    "Total Rewards Claimed = <span style='float:right'><b>" +
-      g.decimalPlaces(6) +
-      "</b> AGL</span>"
-  );
-  let h = new BigNumber(await o.methods.totalEarnedTokens(dir).call());
-  h = h.dividedBy(1e9);
-  $("#claimed").html(
-    "Your Rewads Claimed = <span style='float:right'><b >" +
-      h.decimalPlaces(6) +
-      "</b> AGL</span>"
-  );
-  $("#contractAddress").text(
-    "Contract Adress = " + window.config.agl_farming_address
-  );
-
-  pendingInterval = setInterval(async function() {
-    e = new BigNumber(await o.methods.getPendingDivs(dir).call());
-
-    if (e > 9999999999) {
-      e = e.dividedBy(1e9);
-      $("#pendiente").html(
-        "Rewards Pending = <span style='float:right'><b >" +
-          e.decimalPlaces(6) +
-          "</b> AGL</span>"
-      );
-    } else {
-      $("#pendiente").html(
-        "Rewards Pending = <span style='float:right'><b>0.000000</b> AGL </span>"
-      );
-    }
-  }, 20000);
-}
-
-async function deposit() {
-  let o = await getContract("agl_farming");
-  let q = await o.methods.getNumberOfHolders().call();
-  let amount = $("#value").val();
-  let amount2 = new BigNumber(amount);
-  let amount3 = Math.floor(amount2.multipliedBy(1e18)).toString();
-  //let exito= await o.methods.deposit(amount).send({gas: window.config.default_gas_amount, from: await getCoinbase(), gasPrice: window.config.default_gasprice_gwei*1e9})
-  try {
-    let exito = await window.agl_farming.depositagl(amount3);
-    console.log("Transaction complete?", exito);
-  } catch (e) {
-    console.log("Encountered an error:", e);
-  }
-  connectWallet();
-}
-async function claimRewards() {
-  let o = await getContract("agl_farming");
-  let dir = await getCoinbase();
-  let exito = await o.methods.claim().send({
-    gas: await o.methods.claim().estimateGas({
-      from: dir,
-      to: window.config.agl_farming_address
-    }),
-    from: dir,
-    gasPrice: window.config.default_gasprice_gwei * 1e9
-  });
-  connectWallet();
-}
-async function withdraw() {
-  let o = await getContract("agl_farming");
-  let dir = await getCoinbase();
-  let amount = $("#value").val();
-  let amount2 = new BigNumber(amount);
-  let amount3 = Math.floor(amount2.multipliedBy(1e18)).toString();
-  let exito = await o.methods.withdraw(amount3).send({
-    gas: await o.methods.withdraw(amount3).estimateGas({
-      from: dir,
-      to: window.config.agl_farming_address
-    }),
-    from: dir,
-    gasPrice: window.config.default_gasprice_gwei * 1e9
-  });
-  connectWallet();
-}
 const Web3Modal = window.Web3Modal.default;
 const WalletConnectProvider = window.WalletConnectProvider.default;
 const Fortmatic = window.Fortmatic;
