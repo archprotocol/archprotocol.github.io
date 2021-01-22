@@ -227,7 +227,7 @@ async function wallet() {
     b = b.dividedBy(1e18);
     $("#staked").html(
       "Deposited = <span style='float:right'><b >" +
-        trim(b, 12) +
+        trim(b, 18) +
         "</b> LP</span>"
     );
 
@@ -254,7 +254,7 @@ async function wallet() {
     d = d.dividedBy(1e18);
     $("#balance").html(
       "LP Balance = <span style='float:right'><b>" +
-        trim(d, 12) +
+        trim(d, 18) +
         "</b> LP</span>"
     );
   } else {
