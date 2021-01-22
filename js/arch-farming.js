@@ -83,18 +83,20 @@ class arch_farming {
     });
   }
 
-  async deposit(amount) {
+  async depositarch(amount) {
     let arch_contract = await getContract("arch");
     let arch_LP_contract = await getContract("arch_LP");
     let arch_farming_contract = await getContract("arch_farming");
     let dir = await getCoinbase();
     let batch = new window.web3.eth.BatchRequest();
+    console.log("arch depo");
     const allowance = await arch_contract.methods
       .allowance(dir, window.config.arch_farming_address)
       .call();
     const allowance2 = await arch_LP_contract.methods
       .allowance(dir, window.config.arch_farming_address)
       .call();
+    console.log("aalo", allowance.toString(), allowance2.toString());
     if (allowance2 < amount) {
       batch.add(
         arch_LP_contract.methods
@@ -260,7 +262,8 @@ async function archDeposit() {
   let amount3 = Math.floor(amount2.multipliedBy(1e18)).toString();
   //let exito= await o.methods.deposit(amount).send({gas: window.config.default_gas_amount, from: await getCoinbase(), gasPrice: window.config.default_gasprice_gwei*1e9})
   try {
-    let exito = await window.arch_farming.deposit(amount3);
+    console.log("Calling archDeposit");
+    let exito = await window.arch_farming.depositarch(amount3);
     console.log("Transaction complete?", exito);
   } catch (e) {
     console.log("Encountered an error:", e);
