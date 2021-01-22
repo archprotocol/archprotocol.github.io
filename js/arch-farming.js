@@ -182,21 +182,21 @@ async function archWallet() {
   if (dd > 999999999999) {
     dd = dd.dividedBy(1e9);
     $("#arch-balance2").html(
-      "ARCH Balance = <span style='float:right'><b>" +
+      "AGL Balance = <span style='float:right'><b>" +
         trim(dd, 6) +
-        "</b> ARCH</span>"
+        "</b> AGL</span>"
     );
     $("#arch-2balance2").html(
-      "ARCH Balance = <span style='float:right'><b>" +
+      "AGL Balance = <span style='float:right'><b>" +
         trim(dd, 6) +
-        "</b> ARCH</span>"
+        "</b> AGL</span>"
     );
   } else {
     $("#arch-balance2").html(
-      "ARCH Balance = <span style='float:right'><b>0.000000</b> ARCH</span>"
+      "AGL Balance = <span style='float:right'><b>0.000000</b> AGL</span>"
     );
     $("#arch-2balance2").html(
-      "ARCH Balance = <span style='float:right'><b>0.000000</b> ARCH</span>"
+      "AGL Balance = <span style='float:right'><b>0.000000</b> AGL</span>"
     );
   }
   e = new BigNumber(await o.methods.getPendingDivs(dir).call());
@@ -205,11 +205,11 @@ async function archWallet() {
     $("#arch-pendiente").html(
       "Rewards Pending = <span style='float:right'><b >" +
         e.decimalPlaces(6) +
-        "</b> ARCH</span>"
+        "</b> AGL</span>"
     );
   } else {
     $("#arch-pendiente").html(
-      "Rewards Pending = <span style='float:right'><b >0.000000</b> ARCH</span>"
+      "Rewards Pending = <span style='float:right'><b >0.000000</b> AGL</span>"
     );
   }
   f = await o.methods.getNumberOfHolders().call();
@@ -221,14 +221,14 @@ async function archWallet() {
   $("#arch-totalClaimed").html(
     "Total Rewards Claimed = <span style='float:right'><b>" +
       g.decimalPlaces(6) +
-      "</b> ARCH</span>"
+      "</b> AGL</span>"
   );
   let h = new BigNumber(await o.methods.totalEarnedTokens(dir).call());
   h = h.dividedBy(1e9);
   $("#arch-claimed").html(
     "Your Rewads Claimed = <span style='float:right'><b >" +
       h.decimalPlaces(6) +
-      "</b> ARCH</span>"
+      "</b> AGL</span>"
   );
   $("#arch-contractAddress").text(
     "Contract Adress = " + window.config.arch_farming_address
@@ -242,11 +242,11 @@ async function archWallet() {
       $("#arch-pendiente").html(
         "Rewards Pending = <span style='float:right'><b >" +
           e.decimalPlaces(6) +
-          "</b> ARCH</span>"
+          "</b> AGL</span>"
       );
     } else {
       $("#arch-pendiente").html(
-        "Rewards Pending = <span style='float:right'><b>0.000000</b> ARCH </span>"
+        "Rewards Pending = <span style='float:right'><b>0.000000</b> AGL </span>"
       );
     }
   }, 20000);
