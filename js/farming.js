@@ -198,7 +198,7 @@ window.ethereum.on("accountsChanged", async function(accounts) {
 async function clearInfo() {
   $("#staked").text("Deposited = ");
   $("#address").text("Your Address = ");
-  $("#balance").text("LP Balance = ");
+  $("#balance").text("UNI-V2 Balance = ");
   $("#balance2").text("AGL Balance = ");
   $("#pendiente").text("Rewards Pending = ");
   $("#stakers").text("Number of Farmers = ");
@@ -228,7 +228,7 @@ async function wallet() {
     $("#staked").html(
       "Deposited = <span style='float:right'><b >" +
         trim(b, 18) +
-        "</b> LP</span>"
+        "</b> UNI-V2</span>"
     );
 
     let bb = new BigNumber(await o.methods.totalTokens().call());
@@ -242,7 +242,7 @@ async function wallet() {
     );
   } else {
     $("#staked").html(
-      "Deposited = <span style='float:right'><b>0.000000</b> LP</span>"
+      "Deposited = <span style='float:right'><b>0.000000</b> UNI-V2</span>"
     );
     $("#proportion").html(
       "Share % of Pool =<span style='float:right'> <b>0.0000</b> %</span>"
@@ -255,11 +255,11 @@ async function wallet() {
     $("#balance").html(
       "LP Balance = <span style='float:right'><b>" +
         trim(d, 18) +
-        "</b> LP</span>"
+        "</b> UNI-V2</span>"
     );
   } else {
     $("#balance").html(
-      "LP Balance = <span style='float:right'><b>0.000000</b> LP</span>"
+      "LP Balance = <span style='float:right'><b>0.000000</b> UNI-V2</span>"
     );
   }
   let dd = new BigNumber(await window.agl.balanceOf(dir));
