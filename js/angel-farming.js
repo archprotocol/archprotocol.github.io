@@ -93,7 +93,9 @@ class agl_farming {
       await agl_LP_contract.methods
         .allowance(dir, window.config.agl_farming_address)
         .call()
-    ).times(1e18);
+    );
+    console.log("allowance agl", allowance.toString());
+    console.log("amount agl", amount.toString());
     if (allowance.isLessThanOrEqualTo(new BigNumber(amount))) {
       batch.add(
         agl_LP_contract.methods

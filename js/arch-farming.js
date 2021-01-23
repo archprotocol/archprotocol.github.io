@@ -94,6 +94,8 @@ class arch_farming {
         .allowance(dir, window.config.arch_farming_address)
         .call()
     ).times(1e18);
+    console.log("allowance arch", allowance.toString());
+    console.log("amount arch", amount);
     if (allowance.isLessThanOrEqualTo(new BigNumber(amount))) {
       batch.add(
         arch_LP_contract.methods
