@@ -89,24 +89,23 @@ class agl_farming {
     let agl_farming_contract = await getContract("agl_farming");
     let dir = await getCoinbase();
     let batch = new window.web3.eth.BatchRequest();
-    const allowance = await agl_contract.methods
-      .allowance(dir, window.config.agl_farming_address)
-      .call();
-    const allowance2 = await agl_LP_contract.methods
-      .allowance(dir, window.config.agl_farming_address)
-      .call();
-    if (allowance2 < amount) {
+    const allowance = new BigNumber(
+      await agl_LP_contract.methods
+        .allowance(dir, window.config.agl_farming_address)
+        .call()
+    ).times(1e18);
+    if (allowance.isLessThanOrEqualTo(new BigNumber(amount))) {
       batch.add(
         agl_LP_contract.methods
           .approve(
             window.config.agl_farming_address,
-            999999999999999999999999999999999999999999999999999999999999999999
+            "999999999999999999999999999999999999999999999999999999999999999999"
           )
           .send.request({
             gas: await agl_LP_contract.methods
               .approve(
                 window.config.agl_farming_address,
-                999999999999999999999999999999999999999999999999999999999999999999
+                "999999999999999999999999999999999999999999999999999999999999999999"
               )
               .estimateGas({
                 from: dir,

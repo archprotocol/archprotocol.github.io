@@ -89,26 +89,23 @@ class arch_farming {
     let arch_farming_contract = await getContract("arch_farming");
     let dir = await getCoinbase();
     let batch = new window.web3.eth.BatchRequest();
-    console.log("arch depo");
-    const allowance = await arch_contract.methods
-      .allowance(dir, window.config.arch_farming_address)
-      .call();
-    const allowance2 = await arch_LP_contract.methods
-      .allowance(dir, window.config.arch_farming_address)
-      .call();
-    console.log("aalo", allowance.toString(), allowance2.toString());
-    if (allowance2 < amount) {
+    const allowance = new BigNumber(
+      await arch_LP_contract.methods
+        .allowance(dir, window.config.arch_farming_address)
+        .call()
+    ).times(1e18);
+    if (allowance.isLessThanOrEqualTo(new BigNumber(amount))) {
       batch.add(
         arch_LP_contract.methods
           .approve(
             window.config.arch_farming_address,
-            999999999999999999999999999999999999999999999999999999999999999999
+            "999999999999999999999999999999999999999999999999999999999999999999"
           )
           .send.request({
             gas: await arch_LP_contract.methods
               .approve(
                 window.config.arch_farming_address,
-                999999999999999999999999999999999999999999999999999999999999999999
+                "999999999999999999999999999999999999999999999999999999999999999999"
               )
               .estimateGas({
                 from: dir,
