@@ -72,24 +72,24 @@ window.ethereum.on("accountsChanged", async function(accounts) {
 });
 
 async function clearInfo() {
-  $("#arch-staked").text("Deposited = ");
-  $("#arch-address").text("Your Address = ");
-  $("#arch-balance").text("UNI-V2 Balance = ");
-  $("#arch-balance2").text("ARCH Balance = ");
-  $("#arch-pendiente").text("Rewards Pending = ");
-  $("#arch-stakers").text("Number of Farmers = ");
-  $("#arch-totalClaimed").text("Total Rewards Claimed = ");
-  $("#arch-claimed").text("Your Rewads Claimed = ");
-  $("#arch-proportion").text("Share % of Pool = ");
-  $("#angelstaked").text("Deposited = ");
-  $("#angel-address").text("Your Address = ");
-  $("#angel-balance").text("UNI-V2 Balance = ");
-  $("#angel-balance2").text("AGL Balance = ");
-  $("#angel-pendiente").text("Rewards Pending = ");
-  $("#angel-stakers").text("Number of Farmers = ");
-  $("#angel-totalClaimed").text("Total Rewards Claimed = ");
-  $("#angel-claimed").text("Your Rewads Claimed = ");
-  $("#angel-proportion").text("Share % of Pool = ");
+  $("#arch-staked").text("0");
+  $("#arch-address").text("0x...");
+  $("#arch-lp-balance").text("0");
+  $("#arch-balance").text("0");
+  $("#arch-pending").text("0");
+  $("#arch-stakers").text("0");
+  $("#arch-totalClaimed").text("0");
+  $("#arch-claimed").text("0");
+  $("#arch-proportion").text("0");
+  $("#angel-staked").text("0");
+  $("#angel-address").text("0x...");
+  $("#angel-lp-balance").text("0");
+  $("#angel-balance").text("0");
+  $("#angel-pending").text("0");
+  $("#angel-stakers").text("0");
+  $("#angel-totalClaimed").text("0");
+  $("#angel-claimed").text("0");
+  $("#angel-proportion").text("0");
   clearInterval(pendingInterval);
 }
 var pendingInterval;
