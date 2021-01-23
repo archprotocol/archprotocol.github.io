@@ -148,17 +148,17 @@ async function onConnect() {
 
   // Subscribe to accounts change
   provider.on("accountsChanged", accounts => {
-    wallet();
+    connectWallet();
   });
 
   // Subscribe to chainId change
   provider.on("chainChanged", chainId => {
-    wallet();
+    connectWallet();
   });
 
   // Subscribe to networkId change
   provider.on("networkChanged", networkId => {
-    wallet();
+    connectWallet();
   });
 
   await connectWallet();
