@@ -1,10 +1,10 @@
 window.config = {
-  agl_address: "0xF5ABAc65FE6B565F0445545A373E60e105ae601D", // AGL TOKEN testnet
-  agl_farming_address: "0x55805218bf2155cd9d531b7ad76951a4c3a573d3", // farming contract AGL/ETH testnet
-  agl_lp_address: "0x984e72DE0b04ADb89199E75a016A1Edfeab23E56", // AGL/ETH LP POOL testnet
-  arch_address: "0xF5ABAc65FE6B565F0445545A373E60e105ae601D", // ARCH TOKEN testnet
-  arch_farming_address: "0x99c969b36e26afc87763023e4f974f3bf259308b", // farming contract ARCH/ETH testnet
-  arch_lp_address: "0xB3F01C304274c6C69949732CE060755E6517396a", // ARCH/ETH LP POOL testnet
+  agl_address: "0xd1B9E138516EE74ee27949eb1B58584A4bEDE267", 
+  agl_farming_address: "0x48dd6d34411fef3661894cded50c993c2d82041d", 
+  agl_lp_address: "0xd91911131afe19526d45fc403c514be55c404c39", 
+  arch_address: "0x97f3D01339215916994c9f40f61b89921c613b4d",
+  arch_farming_address: "0xff10e9e2cd7c0206b72ca9fc145c2654479c8803", 
+  arch_lp_address: "0xef841312c610a6340a0235e4e26ca7a0ecb09635", 
   etherscan_baseURL: "https://etherscan.io",
   default_gasprice_gwei: 100,
   default_gas_amount: 300000,
