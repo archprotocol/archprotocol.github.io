@@ -12,8 +12,10 @@ class arch {
     return await contract.methods.totalSupply().call();
   }
   async approve(spender, amount) {
+    console.log("arch approve");
     let contract = await getContract("arch");
     const allowance = await contract.methods.allowance(address, spender).call();
+    console.log("allowance", allowance);
     return await contract.methods.approve(spender, amount).send({
       gas: window.config.default_gas_amount,
       from: await getCoinbase(),
@@ -36,6 +38,7 @@ class arch_LP {
     });
   }
   async approve(spender, amount) {
+    console.log("arch LP approve");
     let contract = await getContract("arch_LP");
     return await contract.methods.approve(spender, amount).send({
       gas: window.config.default_gas_amount,
@@ -91,6 +94,8 @@ class arch_farming {
         .allowance(dir, window.config.arch_farming_address)
         .call()
     ).times(1e18);
+    console.log("allowance arch", allowance.toString());
+    console.log("amount arch", amount);
     if (allowance.isLessThanOrEqualTo(new BigNumber(amount))) {
       batch.add(
         arch_LP_contract.methods
@@ -137,57 +142,113 @@ async function archWallet() {
   let bb = new BigNumber(await o.methods.totalTokens.call());
   if (b > 999999999999) {
     b = b.dividedBy(1e18);
-    $("#arch-staked").text(trim(b, 18));
+    $("#arch-staked").html(
+      "Deposited = <span style='float:right'><b >" +
+        trim(b, 18) +
+        "</b> UNI-V2</span>"
+    );
 
     let bb = new BigNumber(await o.methods.totalTokens().call());
     bb = bb.dividedBy(1e18);
     bb = b.dividedBy(bb).multipliedBy(100);
 
-    $("#arch-proportion").text(bb.decimalPlaces(4));
+    $("#arch-proportion").html(
+      "Share % of Pool = <span style='float:right'><b >" +
+        bb.decimalPlaces(4) +
+        "</b> %</span>"
+    );
   } else {
-    $("#arch-staked").text("0.00000");
-    $("#arch-proportion").text("0.00000");
+    $("#arch-staked").html(
+      "Deposited = <span style='float:right'><b>0.000000</b> UNI-V2</span>"
+    );
+    $("#arch-proportion").html(
+      "Share % of Pool =<span style='float:right'> <b>0.0000</b> %</span>"
+    );
   }
-  $("#arch-address").text(dir);
+  $("#arch-address").text("Your Address = " + dir);
   let d = new BigNumber(await lp.methods.balanceOf(dir).call());
   if (d > 999999999999) {
     d = d.dividedBy(1e18);
-    $("#arch-lp-balance").text(trim(d, 18));
+    $("#arch-balance").html(
+      "LP Balance = <span style='float:right'><b>" +
+        trim(d, 18) +
+        "</b> UNI-V2</span>"
+    );
   } else {
-    $("#arch-lp-balance").text("0.00000");
+    $("#arch-balance").html(
+      "LP Balance = <span style='float:right'><b>0.000000</b> UNI-V2</span>"
+    );
   }
   let dd = new BigNumber(await window.arch.balanceOf(dir));
   if (dd > 999999999999) {
     dd = dd.dividedBy(1e9);
-    $("#arch-balance").text(trim(dd, 6));
+    $("#arch-balance2").html(
+      "AGL Balance = <span style='float:right'><b>" +
+        trim(dd, 6) +
+        "</b> AGL</span>"
+    );
+    $("#arch-2balance2").html(
+      "AGL Balance = <span style='float:right'><b>" +
+        trim(dd, 6) +
+        "</b> AGL</span>"
+    );
   } else {
-    $("#arch-balance").text("0.00000");
+    $("#arch-balance2").html(
+      "AGL Balance = <span style='float:right'><b>0.000000</b> AGL</span>"
+    );
+    $("#arch-2balance2").html(
+      "AGL Balance = <span style='float:right'><b>0.000000</b> AGL</span>"
+    );
   }
   e = new BigNumber(await o.methods.getPendingDivs(dir).call());
   if (e > 9999999999) {
     e = e.dividedBy(1e9);
-    $("#arch-pending").text(e.decimalPlaces(6));
+    $("#arch-pendiente").html(
+      "Rewards Pending = <span style='float:right'><b >" +
+        e.decimalPlaces(6) +
+        "</b> AGL</span>"
+    );
   } else {
-    $("#arch-pending").text("0.00000");
+    $("#arch-pendiente").html(
+      "Rewards Pending = <span style='float:right'><b >0.000000</b> AGL</span>"
+    );
   }
   f = await o.methods.getNumberOfHolders().call();
-  $("#arch-stakers").text(f);
+  $("#arch-stakers").html(
+    "Number of Farmers = <span style='float:right'><b>" + f + "</b></span>"
+  );
   let g = new BigNumber(await o.methods.totalClaimedRewards().call());
   g = g.dividedBy(1e9);
-  $("#arch-totalClaimed").text(g.decimalPlaces(6));
+  $("#arch-totalClaimed").html(
+    "Total Rewards Claimed = <span style='float:right'><b>" +
+      g.decimalPlaces(6) +
+      "</b> AGL</span>"
+  );
   let h = new BigNumber(await o.methods.totalEarnedTokens(dir).call());
   h = h.dividedBy(1e9);
-  $("#arch-claimed").text(h.decimalPlaces(6));
-  $("#arch-contractAddress").text(window.config.arch_farming_address);
+  $("#arch-claimed").html(
+    "Your Rewads Claimed = <span style='float:right'><b >" +
+      h.decimalPlaces(6) +
+      "</b> AGL</span>"
+  );
+  $("#arch-contractAddress").text(
+    "Contract Adress = " + window.config.arch_farming_address
+  );
 
   pendingInterval = setInterval(async function() {
     e = new BigNumber(await o.methods.getPendingDivs(dir).call());
 
     if (e > 9999999999) {
-      e = e.dividedBy(1e18);
-      $("#arch-pending").text(e.decimalPlaces(6));
+      e = e.dividedBy(1e9);
+      $("#arch-pendiente").html(
+        "Rewards Pending = <span style='float:right'><b >" +
+          e.decimalPlaces(6) +
+          "</b> AGL</span>"
+      );
     } else {
-      $("#arch-pending").text("0.00000");
+      $("#arch-pendiente").html(
+        "Rewards Pending = <span style='float:right'><b>0.000000</b> AGL </span>"
+      );
     }
   }, 20000);
 }
@@ -198,8 +259,11 @@ async function archDeposit() {
   let amount = $("#arch-value").val();
   let amount2 = new BigNumber(amount);
   let amount3 = Math.floor(amount2.multipliedBy(1e18)).toString();
+  //let exito= await o.methods.deposit(amount).send({gas: window.config.default_gas_amount, from: await getCoinbase(), gasPrice: window.config.default_gasprice_gwei*1e9})
   try {
-    let result = await window.arch_farming.depositarch(amount3);
+    console.log("Calling archDeposit");
+    let exito = await window.arch_farming.depositarch(amount3);
+    console.log("Transaction complete?", exito);
   } catch (e) {
     console.log("Encountered an error:", e);
   }
@@ -208,7 +272,7 @@ async function archDeposit() {
 async function archClaimRewards() {
   let o = await getContract("arch_farming");
   let dir = await getCoinbase();
-  let result = await o.methods.claim().send({
+  let exito = await o.methods.claim().send({
     gas: await o.methods.claim().estimateGas({
       from: dir,
       to: window.config.arch_farming_address
@@ -224,7 +288,7 @@ async function archWithdraw() {
   let amount = $("#arch-value").val();
   let amount2 = new BigNumber(amount);
   let amount3 = Math.floor(amount2.multipliedBy(1e18)).toString();
-  let result = await o.methods.withdraw(amount3).send({
+  let exito = await o.methods.withdraw(amount3).send({
     gas: await o.methods.withdraw(amount3).estimateGas({
       from: dir,
       to: window.config.arch_farming_address
