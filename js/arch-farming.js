@@ -84,19 +84,15 @@ class arch_farming {
   }
 
   async depositarch(amount) {
-    let arch_contract = await getContract("arch");
     let arch_LP_contract = await getContract("arch_LP");
     let arch_farming_contract = await getContract("arch_farming");
     let dir = await getCoinbase();
     let batch = new window.web3.eth.BatchRequest();
     console.log("arch depo");
-    const allowance = await arch_contract.methods
-      .allowance(dir, window.config.arch_farming_address)
-      .call();
     const allowance2 = await arch_LP_contract.methods
       .allowance(dir, window.config.arch_farming_address)
       .call();
-    console.log("aalo", allowance.toString(), allowance2.toString());
+    console.log("aalo", allowance2.toString());
     if (allowance2 < amount) {
       batch.add(
         arch_LP_contract.methods
