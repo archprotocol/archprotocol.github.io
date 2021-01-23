@@ -135,7 +135,7 @@ async function fetchAccountData() {
   // Contract
   ConnectedContract = new web3.eth.Contract(
     AngelAbi,
-    "0xF5ABAc65FE6B565F0445545A373E60e105ae601D", //testnet
+    "0xd1B9E138516EE74ee27949eb1B58584A4bEDE267",
     provider
   );
   bindRebirth();
