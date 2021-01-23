@@ -178,7 +178,7 @@ async function angelWallet() {
   let h = new BigNumber(await o.methods.totalEarnedTokens(dir).call());
   h = h.dividedBy(1e9);
   $("#angel-claimed").text(h.decimalPlaces(6));
-  $("#angel-contractAddress").text(window.config.angel_farming_address);
+  $("#angel-contractAddress").text(window.config.agl_farming_address);
 
   pendingInterval = setInterval(async function() {
     e = new BigNumber(await o.methods.getPendingDivs(dir).call());
