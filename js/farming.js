@@ -3,7 +3,7 @@ window.config = {
   agl_farming_address: "0x48dd6d34411fef3661894cded50c993c2d82041d", 
   agl_lp_address: "0xd91911131afe19526d45fc403c514be55c404c39", 
   arch_address: "0x97f3D01339215916994c9f40f61b89921c613b4d",
-  arch_farming_address: "0xff10e9e2cd7c0206b72ca9fc145c2654479c8803", 
+  arch_farming_address: "0x3696a1962C2013947be293EC41e32Bf62c60773E", 
   arch_lp_address: "0xef841312c610a6340a0235e4e26ca7a0ecb09635", 
   etherscan_baseURL: "https://etherscan.io",
   default_gasprice_gwei: 100,
