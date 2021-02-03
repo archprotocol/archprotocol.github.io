@@ -36,11 +36,11 @@ function init() {
 
   // Check that the web page is run in a secure context,
   // as otherwise MetaMask won't be available
-  if(location.protocol !== 'https:') {
+  if (location.protocol !== "https:") {
   // https://ethereum.stackexchange.com/a/62217/620
   const alert = document.querySelector("#alert-error-https");
-  alert.style.display = "block";
-  document.querySelector("#btn-connect").setAttribute("disabled", "disabled")
+  if (alert) alert.style.display = "block";
+  document.querySelector("#btn-connect").setAttribute("disabled", "disabled");
   return;
   }
 
@@ -151,6 +151,33 @@ async function fetchContractData() {
     totalSupply.substring(totalSupply.length - 18).substring(0, 5);
 
   document.querySelector("#totalSupply").textContent = parsedTotalSupply;
+  const lastRectitude = await ConnectedContract.methods.lastRectitude().call();
+  const cooldownPeriod = 28800;
+  const nextRectitude = Number(lastRectitude) + cooldownPeriod;
+
+  setInterval(function() {
+  const currentTime = Math.floor(Date.now() / 1000);
+  const secondsTilRectitudeAvailable = nextRectitude - currentTime;
+  const timerDuration = secondsTilRectitudeAvailable;
+  let timer = timerDuration,
+       hours,
+       minutes,
+       seconds;
+     hours = Math.floor(timer / 3600);
+     minutes = Math.floor((timer % 3600) / 60);
+     seconds = Math.floor((timer % 3600) % 60);
+
+     hours = hours < 10 ? "0" + hours : hours;
+     minutes = minutes < 10 ? "0" + minutes : minutes;
+     seconds = seconds < 10 ? "0" + seconds : seconds;
+
+     document.querySelector("#rectitudeCountdown").textContent =
+       hours + ":" + minutes + ":" + seconds;
+
+     if (--timer < 0) {
+       document.querySelector("#rectitudeCountdown").textContent = "AVAILABLE";
+    }
+   }, 1000);
 }
 
 /**

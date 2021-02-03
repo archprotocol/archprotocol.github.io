@@ -180,11 +180,39 @@ async function angelWallet() {
   $("#angel-claimed").text(h.decimalPlaces(6));
   $("#angel-contractAddress").text(window.config.agl_farming_address);
 
+const lastDisburse = await o.methods.lastDisburseTime().call();
+const cooldownPeriod = 86400;
+const nextDisburse = Number(lastDisburse) + cooldownPeriod;
+
+setInterval(function() {
+const currentTime = Math.floor(Date.now() / 1000);
+const secondsTilDisburseAvailable = nextDisburse - currentTime;
+const timerDuration = secondsTilDisburseAvailable;
+let timer = timerDuration,
+hours,
+minutes,
+seconds;
+hours = Math.floor(timer / 3600);
+minutes = Math.floor((timer % 3600) / 60);
+seconds = Math.floor((timer % 3600) % 60);
+
+hours = hours < 10 ? "0" + hours : hours;
+minutes = minutes < 10 ? "0" + minutes : minutes;
+seconds = seconds < 10 ? "0" + seconds : seconds;
+
+document.querySelector("#angel-disburseCountdown").textContent =
+hours + ":" + minutes + ":" + seconds;
+
+if (--timer < 0) {
+document.querySelector("#angel-disburseCountdown").textContent =
+"AVAILABLE";
+}
+}, 1000);
   pendingInterval = setInterval(async function() {
     e = new BigNumber(await o.methods.getPendingDivs(dir).call());
 
     if (e > 9999999999) {
-      e = e.dividedBy(1e18);
+      e = e.dividedBy(1e9);
       $("#angel-pending").text(e.decimalPlaces(6));
     } else {
       $("#angel-pending").text("0.00000");
